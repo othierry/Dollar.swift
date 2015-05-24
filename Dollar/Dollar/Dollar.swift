@@ -999,7 +999,7 @@ public class $ {
     /// :param callback Remove elements for which callback returns true.
     /// :return Array with elements filtered out.
     public class func remove<T>(array: [T], callback: (T) -> Bool) -> [T] {
-        return array.filter { !callback($0) }
+        return array.reject(callback)
     }
     
     /// The opposite of initial this method gets all but the first element or first n elements of an array.
@@ -1222,6 +1222,22 @@ public class $ {
             result[key] = values[index]
         }
         return result
+    }
+  
+    public class func reject<S: SequenceType>(collection: S, rejectElement: (S.Generator.Element) -> Bool ) -> [S.Generator.Element] {
+        return filter(collection, not(rejectElement))
+    }
+
+    public class func reject<C: CollectionType>(collection: C, rejectElement: (C.Generator.Element) -> Bool ) -> [C.Generator.Element] {
+      return filter(collection, not(rejectElement))
+    }
+
+    public class func flip<A, B, C>(f: (A, B) -> C) -> ((B, A) -> C) {
+        return { y, x in f(x, y) }
+    }
+  
+    public class func not<A>(f: A -> Bool) -> (A -> Bool) {
+      return { x in !f(x) }
     }
 
     /// Returns the collection wrapped in the chain object

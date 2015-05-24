@@ -38,4 +38,52 @@ extension $ {
         return { t1 in { t2 in { t3 in { t4 in { t5 in { t6 in { t7 in { t8 in { t9 in { t10 in f(t1, t2, t3, t4, t5, t6, t7, t8, t9, t10) } } } } } } } } } }
     }
 
+    public class func after<T, E>(n: Int) -> ((T...) -> E) -> ((T...) -> E?) {
+        return curry(after)(n)
+    }
+
+    public class func map<T : CollectionType, E>(collection: T) -> ((T.Generator.Element) -> E) -> [E] {
+        return curry(map)(collection)
+    }
+
+    public class func reject<S: SequenceType>(collection: S) -> ((S.Generator.Element) -> Bool) -> [S.Generator.Element] {
+        return curry(reject)(collection)
+    }
+
+    public class func reject<C: CollectionType>(collection: C) -> ((C.Generator.Element) -> Bool) -> [C.Generator.Element] {
+        return curry(reject)(collection)
+    }
+
+    public class func after<T, E>( function: ((T...) -> E),n: Int) -> ((T...) -> E?) {
+        return flip(after)( function, n)
+    }
+
+    public class func map<T : CollectionType, E>( transform: ((T.Generator.Element) -> E),collection: T) -> [E] {
+        return flip(map)( transform, collection)
+    }
+
+    public class func reject<S: SequenceType>( rejectElement: ((S.Generator.Element) -> Bool),collection: S) -> [S.Generator.Element] {
+        return flip(reject)( rejectElement, collection)
+    }
+
+    public class func reject<C: CollectionType>( rejectElement: ((C.Generator.Element) -> Bool),collection: C) -> [C.Generator.Element] {
+        return flip(reject)( rejectElement, collection)
+    }
+
+    public class func after<T, E>( function: ((T...) -> E)) -> Int -> ((T...) -> E?) {
+        return curry(flip(after))( function)
+    }
+
+    public class func map<T : CollectionType, E>( transform: ((T.Generator.Element) -> E)) -> T -> [E] {
+        return curry(flip(map))( transform)
+    }
+
+    public class func reject<S: SequenceType>( rejectElement: ((S.Generator.Element) -> Bool)) -> S -> [S.Generator.Element] {
+        return curry(flip(reject))( rejectElement)
+    }
+
+    public class func reject<C: CollectionType>( rejectElement: ((C.Generator.Element) -> Bool)) -> C -> [C.Generator.Element] {
+        return curry(flip(reject))( rejectElement)
+    }
+
 }
